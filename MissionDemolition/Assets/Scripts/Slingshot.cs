@@ -28,6 +28,7 @@ public class Slingshot : MonoBehaviour
         children = GetComponentsInChildren<Renderer>();
         standard = Shader.Find("Standard");
         outline = Shader.Find("UltimateOutline");
+        outline = Shader.Find("Outlined/UltimateOutline");
         isAiming = false;
     }
 
