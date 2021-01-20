@@ -14,6 +14,7 @@ public class Slingshot : MonoBehaviour
     Vector3 launchPosition;
     GameObject projectile;
     bool isAiming;
+    Camera mainCamera;
     
 
 
@@ -27,9 +28,10 @@ public class Slingshot : MonoBehaviour
     {
         children = GetComponentsInChildren<Renderer>();
         standard = Shader.Find("Standard");
-        outline = Shader.Find("UltimateOutline");
         outline = Shader.Find("Outlined/UltimateOutline");
         isAiming = false;
+        TOP_CENTER = transform.position + Vector3.up * 3;
+        mainCamera = Camera.main;   
     }
 
     // Update is called once per frame
@@ -65,10 +67,9 @@ public class Slingshot : MonoBehaviour
         isAiming = true;
 
         // calc point of click
-
-        launchPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
         projectile = Instantiate<GameObject>(projectilePrefab);
+        launchPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        launchPosition.z = 0f;
         projectile.transform.position = launchPosition;
 
 
