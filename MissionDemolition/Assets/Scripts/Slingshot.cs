@@ -7,6 +7,7 @@ public class Slingshot : MonoBehaviour
     public GameObject projectilePrefab;
 
     public float maxDragDistance = 2.5f;
+    public float tension = 2f;
 
     public Transform leftArmEnd;
     public Transform rightArmEnd;
@@ -15,6 +16,8 @@ public class Slingshot : MonoBehaviour
     GameObject projectile;
     bool isAiming;
     Camera mainCamera;
+
+    private Vector3 TOP_CENTER;
     
 
 
@@ -73,5 +76,30 @@ public class Slingshot : MonoBehaviour
         projectile.transform.position = launchPosition;
 
 
+
+    }
+    private void OnMouseDrag()
+    {
+        if (isAiming)
+        {
+            launchPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            launchPosition.z = 0f;
+            if ((TOP_CENTER - launchPosition).magnitude > maxDragDistance)
+            {
+                launchPosition = TOP_CENTER + (launchPosition - TOP_CENTER).normalized * maxDragDistance;
+            }
+            projectile.transform.position = launchPosition;
+        }
+    }
+
+    private void OnMouseUp()
+    {
+        if (isAiming)
+        {
+            projectile.GetComponent<Rigidbody>().isKinematic = false;
+            var dragForce = (TOP_CENTER - launchPosition) * tension;
+            projectile.GetComponent<Rigidbody>().AddForce(dragForce);
+            isAiming = false;
+        }
     }
 }
