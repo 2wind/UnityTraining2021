@@ -99,6 +99,7 @@ public class Slingshot : MonoBehaviour
             projectile.GetComponent<Rigidbody>().isKinematic = false;
             var dragForce = (TOP_CENTER - launchPosition) * tension;
             projectile.GetComponent<Rigidbody>().AddForce(dragForce);
+            FollowCamera.current.pointOfInterest = projectile;
             isAiming = false;
         }
     }
