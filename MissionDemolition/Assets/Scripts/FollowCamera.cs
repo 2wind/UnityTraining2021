@@ -27,13 +27,20 @@ public class FollowCamera : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (pointOfInterest == null) return;
+        if (pointOfInterest == null)
+        {
+            GetComponent<Camera>().orthographicSize = 10;
+            return;
+        }
 
 
         Vector3 destination = pointOfInterest.transform.position;
+        destination.x = Mathf.Max(0, destination.x);
+        destination.y = Mathf.Max(0, destination.y);
         destination.z = cameraZ;
         if (Vector3.Magnitude(transform.position - destination) > 0.1f){
             transform.position = (Vector3.Lerp(transform.position, destination, easing));
+            GetComponent<Camera>().orthographicSize = 10 + destination.y / 2;
         }
     }
 }
