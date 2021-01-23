@@ -548,4 +548,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraZ: 0
   easing: 0.05
+  defaultObject: {fileID: 1728450181}
   pointOfInterest: {fileID: 0}
+--- !u!1 &1728450181 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 643481433034845720, guid: 285eb0e941ecf544a91e747e69420b97,
+    type: 3}
+  m_PrefabInstance: {fileID: 262080537}
+  m_PrefabAsset: {fileID: 0}
