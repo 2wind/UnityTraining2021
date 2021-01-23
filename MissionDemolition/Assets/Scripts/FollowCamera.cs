@@ -8,6 +8,7 @@ public class FollowCamera : MonoBehaviour
     public static FollowCamera current;
     public float cameraZ;
     public float easing = 0.05f;
+    public GameObject defaultObject;
 
     public GameObject pointOfInterest;
 
@@ -17,6 +18,7 @@ public class FollowCamera : MonoBehaviour
     {
         current = this;
         cameraZ = transform.position.z;
+        pointOfInterest = defaultObject;
     }
 
 
@@ -27,20 +29,32 @@ public class FollowCamera : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (pointOfInterest == null)
+        Vector3 destination;
+        if (!pointOfInterest)
         {
+            destination = Vector3.zero;
             GetComponent<Camera>().orthographicSize = 10;
-            return;
+            
+        } else {
+            destination = pointOfInterest.transform.position;
+            if (pointOfInterest.CompareTag("Projectile") && pointOfInterest.GetComponent<Rigidbody>().IsSleeping())
+            {
+                pointOfInterest = defaultObject;
+                destination = Vector3.zero;
+            }
         }
 
-
-        Vector3 destination = pointOfInterest.transform.position;
         destination.x = Mathf.Max(0, destination.x);
         destination.y = Mathf.Max(0, destination.y);
         destination.z = cameraZ;
-        if (Vector3.Magnitude(transform.position - destination) > 0.1f){
+        if (Vector3.Magnitude(transform.position - destination) > 0.1f)
+        {
             transform.position = (Vector3.Lerp(transform.position, destination, easing));
             GetComponent<Camera>().orthographicSize = 10 + destination.y / 2;
         }
+
+
+
+
     }
 }
