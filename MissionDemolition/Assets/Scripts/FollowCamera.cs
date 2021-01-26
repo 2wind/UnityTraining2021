@@ -11,6 +11,7 @@ public class FollowCamera : MonoBehaviour
     public GameObject defaultObject;
 
     public GameObject pointOfInterest;
+    
 
     
     // Start is called before the first frame update
