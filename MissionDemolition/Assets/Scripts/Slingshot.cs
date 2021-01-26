@@ -67,6 +67,8 @@ public class Slingshot : MonoBehaviour
         // Generate Projectile
         // Generate Line render from Arm End to mouse point Up to max Drag distance from it
 
+        if (FollowCamera.current.pointOfInterest && FollowCamera.current.pointOfInterest.CompareTag("Projectile"))
+            return;
         isAiming = true;
 
         // calc point of click
