@@ -5,17 +5,15 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
 
-    Transform _transform;
     // Start is called before the first frame update
     void Start()
     {
-        _transform = transform;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_transform.position.x < -20 || _transform.position.y < -20 || _transform.position.x > 150)
+        if (transform.position.x < -20 || transform.position.y < -20 || transform.position.x > 150)
         {
             _ = StartCoroutine(nameof(OnDestroyed));
         }
