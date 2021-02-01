@@ -25,9 +25,23 @@ public class SceneControl : MonoBehaviour
 
     }
 
+    public IEnumerator UnloadLastScene()
+    {
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Manager"));
 
-    // destroy any remaining game scene and load.
-    public IEnumerator LoadScene(string sceneName)
+        int sceneCount = SceneManager.sceneCount;
+        if (sceneCount > 1)
+        {
+            // Multiple Scenes loaded (Including Manager)
+            // destroy last scene and move focus to next last scene.
+            SceneManager.UnloadSceneAsync(activeGameScenes[sceneCount - 1]);
+            activeGameScenes.RemoveAt(sceneCount - 1);
+        }
+        yield return null;
+
+    }
+
+    public IEnumerator UnloadAllScene()
     {
         // change active scene to Manager
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Manager"));
@@ -40,6 +54,15 @@ public class SceneControl : MonoBehaviour
             activeGameScenes.ForEach((scene) => { SceneManager.UnloadSceneAsync(scene); });
             activeGameScenes.Clear();
         }
+        yield return null;
+    }
+
+
+    // destroy any remaining game scene and load.
+    public IEnumerator LoadScene(string sceneName)
+    {
+
+        yield return StartCoroutine(nameof(UnloadAllScene));
         // Now only Manager scene is loaded.
         yield return StartCoroutine(nameof(LoadSceenAdditive), sceneName);
     }
@@ -49,7 +72,7 @@ public class SceneControl : MonoBehaviour
     {
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Manager"));
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
         while (!asyncLoad.isDone)
         {
             // do loading screen work
@@ -70,7 +93,7 @@ public class SceneControl : MonoBehaviour
     }
 
 
-    public static void Quit()
+    public void Quit()
     {
         #if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
