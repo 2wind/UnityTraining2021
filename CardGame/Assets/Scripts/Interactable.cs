@@ -20,11 +20,16 @@ public class Interactable : MonoBehaviour
     {
         // 클릭을 했을 때
         // 현재 마우스 위치와 transform 위치 사이의 차이를 delta에 기록한다.
+        GetRelativeMousePosition();
+
+    }
+
+    public void GetRelativeMousePosition()
+    {
         Vector3 objectPosition = transform.position;
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = Camera.main.nearClipPlane;
-        delta = objectPosition - mousePosition;
-
+        delta =  objectPosition - mousePosition;
     }
 
     private void OnMouseDrag()

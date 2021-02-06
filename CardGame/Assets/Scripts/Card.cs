@@ -9,41 +9,44 @@ public class Card : MonoBehaviour
     // Card Component.
     // Made of enum Sign and number.
     // Rendered using SpriteRenderer.
-    public enum Sign { Spade, Diamond, Heart, Clover}
-    public enum Number { NotANumber, Ace, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten, Jack, Queen, King}
-    public Sign sign;
-    public Number number;
+
+    // TODO: 카드끼리 겹치면 나중에 클릭한 쪽이 위로 올라가고, 그 순서가 유지되도록 하는 강건한 알고리즘 만들기
+    
+    [SerializeField]
+    private CardData cardData;
 
     public TextMesh signText;
     public TextMesh numberText;
 
     bool isHidden = false;
 
-    // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
+        cardData = new CardData();
         UpdateCardShape();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
     }
 
+
+
     // Functions about Initial Setting
-    public void SetShape(Sign sign, Number number)
+    public void SetShape(CardData.SIGN sign, CardData.NUMBER number)
     {
-        this.sign = sign;
-        this.number = number;
+        cardData = new CardData(sign, number);
+        UpdateCardShape();
+    }
+
+    public void SetShape(CardData cardData)
+    {
+        this.cardData = cardData;
         UpdateCardShape();
     }
 
     // Functions about Updatating visual according to value
     void UpdateCardShape()
     {
-        signText.text = Enum.GetName(typeof(Sign), sign);
-        numberText.text = Enum.GetName(typeof(Number), number);
+        signText.text = cardData.GetSign();
+        numberText.text = cardData.GetNumber();
     }
     void UpdateCardVisual()
     {
