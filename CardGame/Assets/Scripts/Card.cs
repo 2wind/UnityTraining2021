@@ -23,7 +23,16 @@ public class Card : MonoBehaviour
     void Awake()
     {
         cardData = new CardData();
+        MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
+        foreach (var mesh in meshes)
+        {
+            mesh.sortingLayerID = GetComponent<SpriteRenderer>().sortingLayerID;
+            mesh.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder;
+        }
+
         UpdateCardShape();
+
+
         
     }
 
@@ -50,7 +59,11 @@ public class Card : MonoBehaviour
     }
     void UpdateCardVisual()
     {
-        GetComponent<SpriteRenderer>().sortingOrder = isHidden ? 1 : 0;
+        MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
+        foreach (var mesh in meshes)
+        {
+            mesh.enabled = !isHidden;
+        }
     }
 
     //Utility function that acts something to card
@@ -66,6 +79,8 @@ public class Card : MonoBehaviour
         isHidden = false;
         UpdateCardVisual();
     }
+
+    public CardData CardData => cardData;
 
 
 

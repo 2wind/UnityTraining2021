@@ -8,19 +8,24 @@ public class DeckController : MonoBehaviour
     [SerializeField]
     private List<CardData> deck = new List<CardData>();
 
+    public bool initializeWithCards = true;
     private void Awake()
     {
-        CardData cardData;
-        for (int i = 0; i < 4; i++)
+        if (initializeWithCards)
         {
-            for (int j = 1; j < 14; j++)
+            CardData cardData;
+            for (int i = 0; i < 4; i++)
             {
-                cardData = new CardData(i, j);
-                deck.Add(cardData);
+                for (int j = 1; j < 14; j++)
+                {
+                    cardData = new CardData(i, j);
+                    deck.Add(cardData);
+                }
             }
+
+            Shuffle();
         }
 
-        Shuffle();
     }
 
     
