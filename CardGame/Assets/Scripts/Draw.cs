@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(DeckController), typeof(Collider2D))]
 public class Draw : MonoBehaviour
 {
-    public GameObject cardPrefab;
 
     private DeckController deck;
     // Start is called before the first frame update
@@ -23,10 +22,8 @@ public class Draw : MonoBehaviour
         // remove a card from deck
         if (deck.Count() > 0)
         {
-            CardData data = deck.Pop();
+            GameObject card = deck.Pop();
             // generate a card 
-            GameObject card = Instantiate<GameObject>(cardPrefab);
-            card.GetComponent<Card>().SetShape(data);
             card.transform.parent = transform;
             card.transform.position = transform.position;
             // card.GetComponent<Interactable>().GetRelativeMousePosition();

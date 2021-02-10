@@ -23,17 +23,18 @@ public class Card : MonoBehaviour
     void Awake()
     {
         cardData = new CardData();
+        UpdateSortingLayer();
+        UpdateCardShape();
+    }
+
+    private void UpdateSortingLayer()
+    {
         MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
         foreach (var mesh in meshes)
         {
             mesh.sortingLayerID = GetComponent<SpriteRenderer>().sortingLayerID;
             mesh.sortingOrder = GetComponent<SpriteRenderer>().sortingOrder;
         }
-
-        UpdateCardShape();
-
-
-        
     }
 
 
@@ -56,14 +57,20 @@ public class Card : MonoBehaviour
     {
         signText.text = cardData.GetSign();
         numberText.text = cardData.GetNumber();
+
     }
     void UpdateCardVisual()
     {
+        // Disable card text
         MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
         foreach (var mesh in meshes)
         {
             mesh.enabled = !isHidden;
         }
+        // Disable card collider, making non interactable
+        GetComponent<Collider2D>().enabled = !isHidden;
+        GetComponent<SpriteRenderer>().sortingOrder = isHidden ? -100 : 2;
+        UpdateSortingLayer();
     }
 
     //Utility function that acts something to card
