@@ -47,6 +47,7 @@ public class DeckController : MonoBehaviour
     }
 
     public int Count() => deck.Count;
+    public List<GameObject> Deck() => deck;
     
     public GameObject Pop()
     {

@@ -24,7 +24,8 @@ public class Slot : MonoBehaviour
             {
                 PutCard(collision.gameObject);
                 //show last card face only
-                
+                deckController.Deck().ForEach(card => card.GetComponent<Card>().Hide());
+                collision.GetComponent<Card>().Show();
             }
         }
     }
@@ -35,7 +36,7 @@ public class Slot : MonoBehaviour
         // disable and Hide card pattern
         card.transform.parent = transform;
         card.transform.localPosition = Vector3.down * deckController.Count() * 0.5f;
-        GetComponent<Collider2D>().offset += Vector2.down * 0.5f;
+        GetComponent<Collider2D>().offset = Vector2.down * deckController.Count() * 0.5f;
     }
 
     private void OnMouseDown()
@@ -47,7 +48,7 @@ public class Slot : MonoBehaviour
             // find last card at child
             // Activate card
             last.transform.parent = null;
-            GetComponent<Collider2D>().offset -= Vector2.down * 0.5f;
+            GetComponent<Collider2D>().offset = Vector2.down * deckController.Count() * 0.5f;
             // Remove card from cards
             // card.GetComponent<Interactable>().GetRelativeMousePosition();
         }
